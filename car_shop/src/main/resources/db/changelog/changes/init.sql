@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS users (
     password_hash VARCHAR(255) NOT NULL,
     role TEXT NOT NULL DEFAULT 'USER',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    version BIGINT DEFAULT 0 NOT NULL
 );
 
 -- 2. Таблица автомобилей
@@ -22,7 +23,7 @@ CREATE TABLE IF NOT EXISTS cars (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- 3. Таблица "избранное" (связь многие-ко-многим)
+-- 3. Таблица "избранное"
 CREATE TABLE IF NOT EXISTS user_favorite_cars (
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     car_id UUID NOT NULL REFERENCES cars(id) ON DELETE CASCADE,
@@ -30,7 +31,7 @@ CREATE TABLE IF NOT EXISTS user_favorite_cars (
     PRIMARY KEY (user_id, car_id)
 );
 
--- Индексы для ускорения поиска
+-- Индексы
 CREATE INDEX IF NOT EXISTS idx_user_favorite_user_id ON user_favorite_cars(user_id);
 CREATE INDEX IF NOT EXISTS idx_user_favorite_car_id ON user_favorite_cars(car_id);
 CREATE INDEX IF NOT EXISTS idx_cars_brand_model ON cars(brand, model);

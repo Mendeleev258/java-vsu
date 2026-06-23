@@ -11,6 +11,7 @@ public class User {
     private Role role;
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
+    private Long version;
 
     // Конструктор с обязательными полями
     public User(UUID id, String username, String email, String passwordHash, Role role) {
@@ -19,11 +20,12 @@ public class User {
         this.email = email;
         this.passwordHash = passwordHash;
         this.role = role;
+        this.version = 0L;
     }
 
     // Полный конструктор
     public User(UUID id, String username, String email, String passwordHash, Role role,
-                OffsetDateTime createdAt, OffsetDateTime updatedAt) {
+                OffsetDateTime createdAt, OffsetDateTime updatedAt,  Long version) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -31,6 +33,7 @@ public class User {
         this.role = role;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.version = version != null ? version : 0L;
     }
 
     // Геттеры и сеттеры
@@ -62,6 +65,10 @@ public class User {
         return passwordHash;
     }
 
+    public void setPasswordHash(String password) {
+        this.passwordHash = password;
+    }
+
     public Role getRole() {
         return role;
     }
@@ -70,7 +77,33 @@ public class User {
         this.role = role;
     }
 
+    public OffsetDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(OffsetDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public OffsetDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
     public boolean isAdmin() {
         return Role.ADMIN.equals(this.role);
     }
+
+
 }
